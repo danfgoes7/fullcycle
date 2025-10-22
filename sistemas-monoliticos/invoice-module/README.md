@@ -76,7 +76,6 @@ src/
 
 ## Como rodar os testes
 
-```text
 npm install
 npm test
 

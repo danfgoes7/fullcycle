@@ -50,7 +50,6 @@ src/
 
 ## Fluxo do Invoice
 
-```text
 [Cliente/Facade] 
       │
       ▼

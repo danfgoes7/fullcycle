@@ -35,7 +35,7 @@ src/
 │  └─ invoice.facade.ts
 └─ tests/
    └─ invoice.facade.spec.ts
-´´´
+
 ---
 
 ## Funcionalidades
@@ -72,4 +72,43 @@ src/
       │
       ▼
 [Output DTO] --> retorna dados completos da Invoice
+
+
+## Como rodar os testes
+
+```text
+npm install
+npm test
+
+## Estrutura de dados
+
+Invoice:
+
+id: string (gerado automaticamente)
+
+name: string
+
+document: string
+
+address: Address (Value Object)
+
+items: InvoiceItem[]
+
+createdAt: Date
+
+updatedAt: Date
+
+InvoiceItem:
+
+id: string (gerado automaticamente)
+
+name: string
+
+price: number
+
+DTOs:
+
+GenerateInvoiceUseCaseInputDto / GenerateInvoiceUseCaseOutputDto
+
+FindInvoiceUseCaseInputDTO / FindInvoiceUseCaseOutputDTO
 

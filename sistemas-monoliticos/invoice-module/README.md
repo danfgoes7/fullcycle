@@ -2,37 +2,39 @@
 
 Este módulo implementa o sistema de **Invoice (Nota Fiscal)** para o monolito do curso Full Cycle 3.0.
 
+---
+
 ## Estrutura do módulo
 
+```text
 src/
 ├─ domain/
-│ ├─ entity/
-│ │ ├─ invoice.ts
-│ │ └─ invoice-item.ts
-│ ├─ factory/
-│ │ └─ invoice.factory.ts
-│ └─ value-object/
-│ └─ address.ts
+│  ├─ entity/
+│  │  ├─ invoice.ts
+│  │  └─ invoice-item.ts
+│  ├─ factory/
+│  │  └─ invoice.factory.ts
+│  └─ value-object/
+│     └─ address.ts
 ├─ usecase/
-│ ├─ generate-invoice.usecase.ts
-│ ├─ find-invoice.usecase.ts
-│ ├─ dto/
-│ │ ├─ generate-invoice.dto.ts
-│ │ └─ find-invoice.dto.ts
-│ └─ ports/
-│ └─ invoice-repository.interface.ts
+│  ├─ generate-invoice.usecase.ts
+│  ├─ find-invoice.usecase.ts
+│  ├─ dto/
+│  │  ├─ generate-invoice.dto.ts
+│  │  └─ find-invoice.dto.ts
+│  └─ ports/
+│     └─ invoice-repository.interface.ts
 ├─ infra/
-│ └─ repository/
-│ └─ invoice.repository.memory.ts
+│  └─ repository/
+│     └─ invoice.repository.memory.ts
 ├─ @shared/
-│ └─ domain/
-│ └─ value-object/
-│ └─ id.value-object.ts
+│  └─ domain/
+│     └─ value-object/
+│        └─ id.value-object.ts
 ├─ facade/
-│ └─ invoice.facade.ts
+│  └─ invoice.facade.ts
 └─ tests/
-└─ invoice.facade.spec.ts
-
+   └─ invoice.facade.spec.ts
 
 ---
 

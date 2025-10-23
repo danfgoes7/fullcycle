@@ -3,16 +3,25 @@
 import { InMemoryInvoiceRepository } from '../infra/repository/invoice.repository.memory';
 import { GenerateInvoiceUseCase } from '../usecase/generate-invoice.usecase';
 import { FindInvoiceUseCase } from '../usecase/find-invoice.usecase';
+import { GenerateInvoiceUseCaseInputDto, GenerateInvoiceUseCaseOutputDto } from '../usecase/dto/generate-invoice.dto';
+import { FindInvoiceUseCaseInputDTO, FindInvoiceUseCaseOutputDTO } from '../usecase/dto/find-invoice.dto';
 
-export class InvoiceFacade {
-  public generate: (input: any) => Promise<any>;
-  public find: (input: any) => Promise<any>;
+export default class InvoiceFacade {
+  private generateUseCase: GenerateInvoiceUseCase;
+  private findUseCase: FindInvoiceUseCase;
 
   constructor(repository?: any) {
     const repo = repository ?? new InMemoryInvoiceRepository();
-    const generateUC = new GenerateInvoiceUseCase(repo);
-    const findUC = new FindInvoiceUseCase(repo);
-    this.generate = (input) => generateUC.execute(input);
-    this.find = (input) => findUC.execute(input);
+    this.generateUseCase = new GenerateInvoiceUseCase(repo);
+    this.findUseCase = new FindInvoiceUseCase(repo);
+  }
+
+  async generate(input: GenerateInvoiceUseCaseInputDto): Promise<GenerateInvoiceUseCaseOutputDto> {
+    return this.generateUseCase.execute(input);
+  }
+
+  async find(input: FindInvoiceUseCaseInputDTO): Promise<FindInvoiceUseCaseOutputDTO> {
+    return this.findUseCase.execute(input);
   }
 }
+

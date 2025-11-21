@@ -59,6 +59,7 @@ func main() {
 		"client.id":         "balances",
 		"group.id":          "balances",
 		"auto.offset.reset": "earliest",
+		"enable.auto.commit": true,
 	}
 	c, err := kafka.NewConsumer(configMap)
 	if err != nil {
@@ -90,6 +91,5 @@ func main() {
 			}
 			createBalanceUseCase.Execute(input)
 		}
-		c.CommitMessage(msg)
 	}
 }

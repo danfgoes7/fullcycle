@@ -2,8 +2,13 @@ version: '3'
 
 services:
   wallet-app:
-    build: .
+    build:
+      context: ./wallet
+      dockerfile: Dockerfile
     container_name: wallet
+    depends_on:
+      - kafka
+      - wallet-mysql
     platform: linux/amd64
     volumes:
       - ./wallet:/app
@@ -11,8 +16,13 @@ services:
       - 8080:8080
 
   balances-app:
-    build: .
+    build:
+      context: ./balances
+      dockerfile: Dockerfile
     container_name: balances
+    depends_on:
+      - kafka
+      - balances-mysql
     platform: linux/amd64
     volumes:
       - ./balances:/app

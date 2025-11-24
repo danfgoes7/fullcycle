@@ -1,26 +1,54 @@
-### POST /clients
-POST http://localhost:8080/clients HTTP/1.1
+### Criar novo cliente
+POST http://localhost:8080/clients
 Content-Type: application/json
 
 {
-    "name": "Mary 3",
-    "email": "mary@mary.com"
+  "name": "Novo Cliente",
+  "email": "novo.cliente@example.com"
 }
 
-### POST /accounts
-POST http://localhost:8080/accounts HTTP/1.1
+### Clientes existentes para consulta
+# Alice: d7c91b7e-2e1a-4f89-8bae-8c3f0f2a481a
+# Maria Souza: f81eaef6-c21a-4ea9-b6ce-b97a26af0ac8
+# Grace: 6d981c2b-5aa8-4e90-aab7-9e484c1a9f4d
+
+
+### Criar uma conta para a cliente Maria Souza
+POST http://localhost:8080/accounts
 Content-Type: application/json
 
 {
-    "client_id": "f689e75c-4412-4328-9e73-5371a24711b6"
+  "client_id": "f81eaef6-c21a-4ea9-b6ce-b97a26af0ac8"
 }
 
-### POST /transactions
-POST http://localhost:8080/transactions HTTP/1.1
+### Criar uma conta para Alice
+POST http://localhost:8080/accounts
 Content-Type: application/json
 
 {
-    "account_id_from": "d6a41403-bbd0-11ee-8a24-0242ac120003",
-    "account_id_to": "d6a41504-bbd0-11ee-8a24-0242ac120003",
-    "amount": 100
+  "client_id": "d7c91b7e-2e1a-4f89-8bae-8c3f0f2a481a"
+}
+
+### Contas existentes para consulta
+# Conta de Maria Souza: 17ca1194-28da-413a-8136-b4b700b6b13f
+# Conta de Alice: 0c4d1f7b-3b34-4461-9b21-76e58f7b6db8
+
+### Criar transação: Alice envia 50 para Maria Souza
+POST http://localhost:8080/transactions
+Content-Type: application/json
+
+{
+  "account_id_from": "0c4d1f7b-3b34-4461-9b21-76e58f7b6db8",
+  "account_id_to": "17ca1194-28da-413a-8136-b4b700b6b13f",
+  "amount": 50
+}
+
+### Criar transação: Maria manda 25 de volta para Alice
+POST http://localhost:8080/transactions
+Content-Type: application/json
+
+{
+  "account_id_from": "17ca1194-28da-413a-8136-b4b700b6b13f",
+  "account_id_to": "0c4d1f7b-3b34-4461-9b21-76e58f7b6db8",
+  "amount": 25
 }

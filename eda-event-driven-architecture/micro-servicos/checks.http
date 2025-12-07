@@ -1,0 +1,78 @@
+### 1) HEALTH / sanity checks
+GET http://localhost:8080/health
+Accept: application/json
+
+###
+GET http://localhost:3003/health
+Accept: application/json
+
+### 2) List clients (wallet core) - (se implementado)
+GET http://localhost:8080/clients
+Accept: application/json
+
+### 3) Create a new client
+POST http://localhost:8080/clients
+Content-Type: application/json
+
+{
+  "name": "Novo Cliente",
+  "email": "novo.cliente@example.com"
+}
+
+### 4) Create accounts for existing clients (example IDs from project)
+POST http://localhost:8080/accounts
+Content-Type: application/json
+
+{
+  "client_id": "f81eaef6-c21a-4ea9-b6ce-b97a26af0ac8"
+}
+
+POST http://localhost:8080/accounts
+Content-Type: application/json
+
+{
+  "client_id": "d7c91b7e-2e1a-4f89-8bae-8c3f0f2a481a"
+}
+
+### 5) Create a transaction (Alice -> Maria) - produces Kafka event
+POST http://localhost:8080/transactions
+Content-Type: application/json
+
+{
+  "account_id_from": "0c4d1f7b-3b34-4461-9b21-76e58f7b6db8",
+  "account_id_to":   "17ca1194-28da-413a-8136-b4b700b6b13f",
+  "amount": 50
+}
+
+### 6) Create a transaction (Maria -> Alice)
+POST http://localhost:8080/transactions
+Content-Type: application/json
+
+{
+  "account_id_from": "17ca1194-28da-413a-8136-b4b700b6b13f",
+  "account_id_to":   "0c4d1f7b-3b34-4461-9b21-76e58f7b6db8",
+  "amount": 25
+}
+
+### 7) Check balances for Alice (after a short wait)
+GET http://localhost:3003/balances/0c4d1f7b-3b34-4461-9b21-76e58f7b6db8
+Accept: application/json
+
+### 8) Check balances for Maria Souza
+GET http://localhost:3003/balances/17ca1194-28da-413a-8136-b4b700b6b13f
+Accept: application/json
+
+### 9) Create a transaction with IDs from your seed used earlier (example used in your manual test)
+POST http://localhost:8080/transactions
+Content-Type: application/json
+
+{
+  "account_id_from":"7e8c82a1-f330-4a51-9fde-8d0f5be6e9f1",
+  "account_id_to":"9ea3b57e-1b8e-4a1f-a453-2b013e1d7b8f",
+  "amount":100
+}
+
+### 10) Check the updated balances for that account
+GET http://localhost:3003/balances/7e8c82a1-f330-4a51-9fde-8d0f5be6e9f1
+Accept: application/json
+

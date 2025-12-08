@@ -36,15 +36,13 @@ Disparado quando um novo cliente é criado.
 
 Handlers:
 - `EnviaConsoleLog1Handler` → Exibe:
+
 Esse é o primeiro console.log do evento: CustomerCreated
 
-markdown
-Copiar código
 - `EnviaConsoleLog2Handler` → Exibe:
+
 Esse é o segundo console.log do evento: CustomerCreated
 
-yaml
-Copiar código
 
 ---
 
@@ -53,14 +51,14 @@ Disparado quando o endereço do cliente é alterado via `changeAddress()`.
 
 Handler:
 - `EnviaConsoleLogHandler` → Exibe:
+
 Endereço do cliente: {id}, {nome} alterado para: {endereco}
 
-yaml
-Copiar código
 
 ---
 
 ## ✅ Estrutura do Projeto
+
 
 src/
 ├── domain/
@@ -80,8 +78,6 @@ src/
 ├── tests/
 └── ...
 
-yaml
-Copiar código
 
 ---
 
@@ -94,12 +90,12 @@ Para executar:
 ```bash
 npm install
 npm test
+
 Resultado esperado:
 
-css
-Copiar código
 PASS  src/infrastructure/order/repository/sequelize/order.repository.spec.ts
 PASS  src/domain/customer/event/customer-events.spec.ts
 
 Test Suites: 2 passed, 2 total
 Tests:       7 passed, 7 total
+

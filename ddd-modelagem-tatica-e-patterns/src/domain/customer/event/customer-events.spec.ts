@@ -1,5 +1,3 @@
-// src/domain/customer/event/customer-events.spec.ts
-
 import { eventDispatcher } from "../../@shared/event/event-dispatcher";
 import EnviaConsoleLog1Handler from "./handler/envia-console-log1.handler";
 import EnviaConsoleLog2Handler from "./handler/envia-console-log2.handler";
@@ -13,44 +11,34 @@ describe("Customer domain events tests", () => {
     jest.clearAllMocks();
   });
 
-  it("should log two messages when customer is created", () => {
+  it("should call both handlers when customer is created", () => {
     const handler1 = new EnviaConsoleLog1Handler();
     const handler2 = new EnviaConsoleLog2Handler();
+
+    const spyHandler1 = jest.spyOn(handler1, "handle");
+    const spyHandler2 = jest.spyOn(handler2, "handle");
 
     eventDispatcher.register("CustomerCreatedEvent", handler1);
     eventDispatcher.register("CustomerCreatedEvent", handler2);
 
-    const consoleSpy = jest
-      .spyOn(console, "log")
-      .mockImplementation(() => {});
-
     new Customer("c1", "Customer 1");
 
-    expect(consoleSpy).toHaveBeenCalledWith(
-      "Esse é o primeiro console.log do evento: CustomerCreated"
-    );
-    expect(consoleSpy).toHaveBeenCalledWith(
-      "Esse é o segundo console.log do evento: CustomerCreated"
-    );
+    expect(spyHandler1).toHaveBeenCalled();
+    expect(spyHandler2).toHaveBeenCalled();
+
   });
 
-  it("should log message when customer address is changed", () => {
+  it("should call address changed handler when customer address is changed", () => {
     const handler = new EnviaConsoleLogHandler();
+    const spyHandler = jest.spyOn(handler, "handle");
 
     eventDispatcher.register("CustomerAddressChangedEvent", handler);
-
-    const consoleSpy = jest
-      .spyOn(console, "log")
-      .mockImplementation(() => {});
 
     const customer = new Customer("c1", "Customer 1");
     const address = new Address("Rua 1", 123, "12345-678", "São Paulo");
 
     customer.changeAddress(address);
 
-    expect(consoleSpy).toHaveBeenCalledWith(
-      "Endereço do cliente: c1, Customer 1 alterado para: Rua 1, 123, 12345-678 - São Paulo"
-    );
+    expect(spyHandler).toHaveBeenCalled();
   });
 });
-

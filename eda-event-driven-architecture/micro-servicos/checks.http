@@ -1,17 +1,20 @@
 ### ====================================================================
 ### 0) Observações gerais
 ###
-### - Os IDs abaixo (clientes/contas) vêm dos seeds e comentários
-###   em wallet/api/client.http e balances/api/client.http.
-### - Certifique-se de subir tudo com:
-###     docker compose up -d --build
-### - Depois rode estes requests na ordem (VSCode REST Client, Insomnia, etc).
+### - Os IDs abaixo vêm diretamente dos seeds em:
+###   - wallet/cmd/walletcore/main.go
+###   - balances/cmd/balances/main.go
+### - Contas principais usadas nos exemplos:
+###   - Conta do John : 7e8c82a1-f330-4a51-9fde-8d0f5be6e9f1
+###   - Conta da Jane : 9ea3b57e-1b8e-4a1f-a453-2b013e1d7b8f
+###
+### Passos:
+###   1) docker compose up -d --build
+###   2) Executar os requests abaixo na ordem (VSCode REST Client, Insomnia, etc).
 ### ====================================================================
 
 
-### 1) (Opcional) Criar novo cliente
-### Não é necessário para o fluxo principal, pois já há clientes seedados,
-### mas deixamos aqui um exemplo.
+### 1) (Opcional) Criar um novo cliente
 POST http://localhost:8080/clients
 Content-Type: application/json
 
@@ -22,18 +25,21 @@ Content-Type: application/json
 
 
 ### 2) (Opcional) Criar contas para clientes existentes
-### IDs de clientes seedados (comentados em wallet/api/client.http):
-### - Alice: d7c91b7e-2e1a-4f89-8bae-8c3f0f2a481a
-### - Maria Souza: f81eaef6-c21a-4ea9-b6ce-b97a26af0ac8
+### Clientes seedados (wallet DB):
+### - John  : a2f49c1d-8c52-40ae-9bef-3ad0f9d79ec4
+### - Jane  : 7f12e3b9-4d32-44b0-8e1a-5c6e8f0d7230
+### - Alice : d7c91b7e-2e1a-4f89-8bae-8c3f0f2a481a
+### - Bob   : b1a4cfe3-f982-46f8-9fa3-3458b6e489af
+### - ...
 ###
-### As contas abaixo provavelmente já existem via seed, mas este exemplo
-### mostra como criá-las via API caso necessário.
+### As contas abaixo já existem via seed, mas os exemplos mostram como criar
+### novas contas caso o avaliador queira testar manualmente.
 
 POST http://localhost:8080/accounts
 Content-Type: application/json
 
 {
-  "client_id": "f81eaef6-c21a-4ea9-b6ce-b97a26af0ac8"
+  "client_id": "a2f49c1d-8c52-40ae-9bef-3ad0f9d79ec4"   // John
 }
 
 ###
@@ -41,61 +47,20 @@ POST http://localhost:8080/accounts
 Content-Type: application/json
 
 {
-  "client_id": "d7c91b7e-2e1a-4f89-8bae-8c3f0f2a481a"
+  "client_id": "7f12e3b9-4d32-44b0-8e1a-5c6e8f0d7230"   // Jane
 }
 
 
-### 3) Cenário 1 - Alice e Maria Souza (contas já conhecidas)
-### Contas (dos comentários em wallet/api/client.http):
-### - Conta de Maria Souza: 17ca1194-28da-413a-8136-b4b700b6b13f
-### - Conta de Alice:       0c4d1f7b-3b34-4461-9b21-76e58f7b6db8
-
-
-### 3.1) Criar transação: Alice envia 50 para Maria
-POST http://localhost:8080/transactions
-Content-Type: application/json
-
-{
-  "account_id_from": "0c4d1f7b-3b34-4461-9b21-76e58f7b6db8",
-  "account_id_to":   "17ca1194-28da-413a-8136-b4b700b6b13f",
-  "amount": 50
-}
-
-
-### 3.2) Criar transação: Maria manda 25 de volta para Alice
-POST http://localhost:8080/transactions
-Content-Type: application/json
-
-{
-  "account_id_from": "17ca1194-28da-413a-8136-b4b700b6b13f",
-  "account_id_to":   "0c4d1f7b-3b34-4461-9b21-76e58f7b6db8",
-  "amount": 25
-}
-
-
-### 3.3) Consultar saldo da conta da Alice
-### Serviço de balances (porta 3003)
-GET http://localhost:3003/balances/0c4d1f7b-3b34-4461-9b21-76e58f7b6db8
-Accept: application/json
-
-
-### 3.4) Consultar saldo da conta da Maria Souza
-GET http://localhost:3003/balances/17ca1194-28da-413a-8136-b4b700b6b13f
-Accept: application/json
-
-
-
-### 4) Cenário 2 - Contas usadas no seu teste manual
-### Estes IDs vieram do seu próprio fluxo de teste:
-### - account_id_from: 7e8c82a1-f330-4a51-9fde-8d0f5be6e9f1
-### - account_id_to:   9ea3b57e-1b8e-4a1f-a453-2b013e1d7b8f
+### 3) Cenário principal - John e Jane
+### Contas seedadas no wallet:
+### - Conta do John : 7e8c82a1-f330-4a51-9fde-8d0f5be6e9f1 (saldo inicial 1000)
+### - Conta da Jane : 9ea3b57e-1b8e-4a1f-a453-2b013e1d7b8f (saldo inicial 1000)
 ###
-### Você já comprovou que:
-### - POST /transactions com esses IDs gerou evento BalanceUpdated
-### - GET /balances/{from} retornou balance = 900
+### No serviço de balances, há seeds iniciais com outros valores para essas contas,
+### mas após as transações o saldo será atualizado via evento BalanceUpdated.
 
 
-### 4.1) Criar transação com o par de contas do teste manual
+### 3.1) Criar transação: John envia 100 para Jane
 POST http://localhost:8080/transactions
 Content-Type: application/json
 
@@ -106,7 +71,50 @@ Content-Type: application/json
 }
 
 
-### 4.2) Consultar saldo da conta de origem (deve refletir o novo balance)
+### 3.2) (Opcional) Criar outra transação: Jane envia 50 de volta para John
+POST http://localhost:8080/transactions
+Content-Type: application/json
+
+{
+  "account_id_from": "9ea3b57e-1b8e-4a1f-a453-2b013e1d7b8f",
+  "account_id_to":   "7e8c82a1-f330-4a51-9fde-8d0f5be6e9f1",
+  "amount": 50
+}
+
+
+### 3.3) Consultar saldo da conta do John no serviço de balances
 GET http://localhost:3003/balances/7e8c82a1-f330-4a51-9fde-8d0f5be6e9f1
+Accept: application/json
+
+
+### 3.4) Consultar saldo da conta da Jane no serviço de balances
+GET http://localhost:3003/balances/9ea3b57e-1b8e-4a1f-a453-2b013e1d7b8f
+Accept: application/json
+
+
+### 4) Cenário extra - Alice e Bob (exemplos com outras contas)
+### Contas seedadas:
+### - Conta da Alice : 0c4d1f7b-3b34-4461-9b21-76e58f7b6db8
+### - Conta do Bob   : ea2b73f4-5d9c-48a3-9c4e-3fee3d2c4b12
+
+
+### 4.1) Criar transação: Alice envia 100 para Bob
+POST http://localhost:8080/transactions
+Content-Type: application/json
+
+{
+  "account_id_from": "0c4d1f7b-3b34-4461-9b21-76e58f7b6db8",
+  "account_id_to":   "ea2b73f4-5d9c-48a3-9c4e-3fee3d2c4b12",
+  "amount": 100
+}
+
+
+### 4.2) Consultar saldo da Alice
+GET http://localhost:3003/balances/0c4d1f7b-3b34-4461-9b21-76e58f7b6db8
+Accept: application/json
+
+
+### 4.3) Consultar saldo do Bob
+GET http://localhost:3003/balances/ea2b73f4-5d9c-48a3-9c4e-3fee3d2c4b12
 Accept: application/json
 

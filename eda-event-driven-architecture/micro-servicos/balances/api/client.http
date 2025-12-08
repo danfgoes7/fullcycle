@@ -1,12 +1,21 @@
 ### GET /balances/{account_id}
 
+### Consultar saldo da conta do John
+GET http://localhost:3003/balances/7e8c82a1-f330-4a51-9fde-8d0f5be6e9f1
+Accept: application/json
+
+
+### Consultar saldo da conta da Jane
+GET http://localhost:3003/balances/9ea3b57e-1b8e-4a1f-a453-2b013e1d7b8f
+Accept: application/json
+
+
 ### Consultar saldo da conta da Alice
-GET http://localhost:3003/balances/0c4d1f7b-3b34-4461-9b21-76e58f7b6db8 HTTP/1.1
-Content-Type: application/json
+GET http://localhost:3003/balances/0c4d1f7b-3b34-4461-9b21-76e58f7b6db8
+Accept: application/json
 
 
-### Consultar saldo da conta da Maria Souza
-GET http://localhost:3003/balances/17ca1194-28da-413a-8136-b4b700b6b13f HTTP/1.1
-Content-Type: application/json
-
+### Consultar saldo da conta do Bob
+GET http://localhost:3003/balances/ea2b73f4-5d9c-48a3-9c4e-3fee3d2c4b12
+Accept: application/json
 

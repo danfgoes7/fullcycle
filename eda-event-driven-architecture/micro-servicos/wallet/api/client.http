@@ -7,48 +7,63 @@ Content-Type: application/json
   "email": "novo.cliente@example.com"
 }
 
-### Clientes existentes para consulta
-# Alice: d7c91b7e-2e1a-4f89-8bae-8c3f0f2a481a
-# Maria Souza: f81eaef6-c21a-4ea9-b6ce-b97a26af0ac8
-# Grace: 6d981c2b-5aa8-4e90-aab7-9e484c1a9f4d
+
+### Clientes seedados (wallet DB)
+# John   : a2f49c1d-8c52-40ae-9bef-3ad0f9d79ec4
+# Jane   : 7f12e3b9-4d32-44b0-8e1a-5c6e8f0d7230
+# Alice  : d7c91b7e-2e1a-4f89-8bae-8c3f0f2a481a
+# Bob    : b1a4cfe3-f982-46f8-9fa3-3458b6e489af
+# Charlie: c9e2d6fa-02ad-4b1f-8b91-34d3f0921ae2
+# David  : 85a4d3c7-31d4-4fb3-8aca-707df2e55b98
+# Eva    : 98b76fa4-04c8-4294-b4d1-1f7a732e6cde
+# Frank  : f3b0d7e8-c12f-4e32-9a17-4cb2827ea567
+# Grace  : 6d981c2b-5aa8-4e90-aab7-9e484c1a9f4d
+# Harry  : c4f07f15-27ed-4c5e-8d3f-0489d9e8f3ed
 
 
-### Criar uma conta para a cliente Maria Souza
+### Criar uma conta para o John
 POST http://localhost:8080/accounts
 Content-Type: application/json
 
 {
-  "client_id": "f81eaef6-c21a-4ea9-b6ce-b97a26af0ac8"
+  "client_id": "a2f49c1d-8c52-40ae-9bef-3ad0f9d79ec4"
 }
 
-### Criar uma conta para Alice
+### Criar uma conta para a Jane
 POST http://localhost:8080/accounts
 Content-Type: application/json
 
 {
-  "client_id": "d7c91b7e-2e1a-4f89-8bae-8c3f0f2a481a"
+  "client_id": "7f12e3b9-4d32-44b0-8e1a-5c6e8f0d7230"
 }
 
-### Contas existentes para consulta
-# Conta de Maria Souza: 17ca1194-28da-413a-8136-b4b700b6b13f
-# Conta de Alice: 0c4d1f7b-3b34-4461-9b21-76e58f7b6db8
 
-### Criar transação: Alice envia 50 para Maria Souza
+### Contas seedadas (wallet DB)
+# Conta do John : 7e8c82a1-f330-4a51-9fde-8d0f5be6e9f1
+# Conta da Jane : 9ea3b57e-1b8e-4a1f-a453-2b013e1d7b8f
+# Conta da Alice: 0c4d1f7b-3b34-4461-9b21-76e58f7b6db8
+# Conta do Bob  : ea2b73f4-5d9c-48a3-9c4e-3fee3d2c4b12
+# (demais contas também são seedadas no main.go)
+
+
+### Criar transação: John envia 100 para Jane
+POST http://localhost:8080/transactions
+Content-Type: application/json
+
+{
+  "account_id_from": "7e8c82a1-f330-4a51-9fde-8d0f5be6e9f1",
+  "account_id_to":   "9ea3b57e-1b8e-4a1f-a453-2b013e1d7b8f",
+  "amount": 100
+}
+
+
+### Criar transação: Alice envia 100 para Bob
 POST http://localhost:8080/transactions
 Content-Type: application/json
 
 {
   "account_id_from": "0c4d1f7b-3b34-4461-9b21-76e58f7b6db8",
-  "account_id_to": "17ca1194-28da-413a-8136-b4b700b6b13f",
-  "amount": 50
+  "account_id_to":   "ea2b73f4-5d9c-48a3-9c4e-3fee3d2c4b12",
+  "amount": 100
 }
 
-### Criar transação: Maria manda 25 de volta para Alice
-POST http://localhost:8080/transactions
-Content-Type: application/json
-
-{
-  "account_id_from": "17ca1194-28da-413a-8136-b4b700b6b13f",
-  "account_id_to": "0c4d1f7b-3b34-4461-9b21-76e58f7b6db8",
-  "amount": 25
-}

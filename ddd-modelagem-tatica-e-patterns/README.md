@@ -55,10 +55,7 @@ Handler:
 Endereço do cliente: {id}, {nome} alterado para: {endereco}
 
 
----
-
 ## ✅ Estrutura do Projeto
-
 
 src/
 ├── domain/
@@ -77,9 +74,6 @@ src/
 │ └── sequelize/
 ├── tests/
 └── ...
-
-
----
 
 ## ✅ Testes
 

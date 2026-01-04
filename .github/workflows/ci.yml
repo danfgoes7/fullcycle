@@ -32,8 +32,8 @@ jobs:
         uses: SonarSource/sonarcloud-github-action@master
         with:
           args: >
-            -Dsonar.projectKey=fullcycle-ci-challenge
-            -Dsonar.organization=<yourOrganization>
+            -Dsonar.projectkey=fullcycle
+            -Dsonar.organization=integracao-continua
             -Dsonar.sources=integracao-continua/src
             -Dsonar.tests=integracao-continua/tests
         env:

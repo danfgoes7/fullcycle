@@ -27,3 +27,15 @@ jobs:
         working-directory: integracao-continua
         run: npm test
 
+
+      - name: SonarCloud Scan
+        uses: SonarSource/sonarcloud-github-action@master
+        with:
+          args: >
+            -Dsonar.projectKey=fullcycle-ci-challenge
+            -Dsonar.organization=<yourOrganization>
+            -Dsonar.sources=integracao-continua/src
+            -Dsonar.tests=integracao-continua/tests
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+

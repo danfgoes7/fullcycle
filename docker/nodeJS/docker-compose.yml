@@ -1,0 +1,30 @@
+version: "3.8"
+
+services:
+  app:
+    build: ./app
+    container_name: node-app
+    volumes:
+      - ./app:/app
+    depends_on:
+      - db
+
+  db:
+    image: mysql:5.7
+    container_name: mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: fullcycle
+    volumes:
+      - mysql-data:/var/lib/mysql
+
+  nginx:
+    build: ./nginx
+    container_name: nginx
+    ports:
+      - "8080:80"
+    depends_on:
+      - app
+
+volumes:
+  mysql-data:

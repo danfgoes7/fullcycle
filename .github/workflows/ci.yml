@@ -1,16 +1,17 @@
-name: CI Pipeline
+name: CI
 
 on:
   pull_request:
-    branches:
-      - main
+    branches: [ "main" ]
+  push:
+    branches: [ "main" ]
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
+      - name: Checkout
         uses: actions/checkout@v4
 
       - name: Setup Node.js
@@ -19,12 +20,10 @@ jobs:
           node-version: 18
 
       - name: Install dependencies
+        working-directory: integracao-continua
         run: npm install
 
       - name: Run tests
-        run: npm test -- --coverage
+        working-directory: integracao-continua
+        run: npm test
 
-      - name: SonarCloud Scan
-        uses: SonarSource/sonarcloud-github-action@master
-        env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}

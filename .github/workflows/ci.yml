@@ -33,8 +33,10 @@ jobs:
           args: >
             -Dsonar.projectKey=fullcycle
             -Dsonar.organization=danfgoes7
-            -Dsonar.sources=integracao-continua/src
-            -Dsonar.tests=integracao-continua/tests
-            -Dsonar.javascript.lcov.reportPaths=integracao-continua/coverage/lcov.info
+            -Dsonar.projectBaseDir=integracao-continua
+            -Dsonar.sources=src
+            -Dsonar.tests=tests
+            -Dsonar.javascript.lcov.reportPaths=coverage/lcov.info
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          

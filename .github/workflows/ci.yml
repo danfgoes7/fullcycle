@@ -27,3 +27,16 @@ jobs:
         working-directory: integracao-continua
         run: npm test
 
+      - name: SonarCloud Scan
+        uses: SonarSource/sonarqube-scan-action@v5.0.0
+        with:
+          args: >
+            -Dsonar.projectKey=fullcycle
+            -Dsonar.organization=danfgoes7
+            -Dsonar.projectBaseDir=integracao-continua
+            -Dsonar.sources=src
+            -Dsonar.tests=tests
+            -Dsonar.javascript.lcov.reportPaths=coverage/lcov.info
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          
